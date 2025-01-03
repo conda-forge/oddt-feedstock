@@ -6,18 +6,19 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 330f510a6563c371627370200fbfb39ed3496662d067d17e09edb5a6025c8ae6
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
     - pip
+    - setuptools
     - six
     - numpy
     - scipy >=0.17
@@ -28,7 +29,7 @@ requirements:
     - rdkit >=2017.09
     - openbabel >=2.3.2
   run:
-    - python
+    - python >={{ python_min }}
     - six
     - {{ pin_compatible('numpy') }}
     - scipy >=0.17
@@ -40,6 +41,8 @@ requirements:
     - openbabel >=2.3.2
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - oddt
 
